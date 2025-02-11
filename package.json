@@ -1,7 +1,7 @@
 {
-    "name": "@elizaos/client-streamr",
+    "name": "@elizaos-plugins/client-streamr",
     "version": "0.0.1",
-    "description": "Streamr SDK Client for ElizaOS",
+    "description": "Streamr SDK Wrapper for ElizaOS",
     "type": "module",
     "main": "dist/index.js",
     "module": "dist/index.js",
