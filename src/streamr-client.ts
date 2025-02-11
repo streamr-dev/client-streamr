@@ -6,17 +6,12 @@ export class StreamrElizaClient implements ClientInstance {
     private runtime: IAgentRuntime;
 
     private wallet: string;
-    private streamId: string;
-    private partitionId: number;
 
     constructor(runtime: IAgentRuntime) {
         elizaLogger.log("📱 Constructing new StreamrClient...");
         this.runtime = runtime;
         this.wallet = runtime.getSetting("STREAMR_WALLET");
-        this.streamId = runtime.getSetting("STREAMR_STREAM_ID");
-        const id = runtime.getSetting("STREAMR_STREAM_PARTITION_ID")
-        this.partitionId = Number.parseInt(id);
-        if (!this.wallet || !this.streamId || isNaN(this.partitionId)) {
+        if (!this.wallet) {
             throw new Error("STREAMR configs are not set");
         }
     }
@@ -35,11 +30,11 @@ export class StreamrElizaClient implements ClientInstance {
         }
     }
 
-    async subscribe(callback: (message: any) => void) {
-        elizaLogger.log("Subscribing to Streamr", this.streamId, this.partitionId);
+    async subscribe(streamId: string, partitionId: number, callback: (message: any) => void) {
+        elizaLogger.log("Subscribing to Streamr", streamId, partitionId);
         try {
             return await this.streamrClient.subscribe(
-                { id: this.streamId, partition: this.partitionId },
+                { id: streamId, partition: partitionId },
                 callback
             );
         }
@@ -49,12 +44,12 @@ export class StreamrElizaClient implements ClientInstance {
         }
     }
 
-    async publish(message: any) {
+    async publish(streamId: string, partitionId: number, message: any) {
         elizaLogger.log("Publishing message to Streamr", message);
         try {
             return await this.streamrClient.publish({
-                id: this.streamId,
-                partition: this.partitionId
+                id: streamId,
+                partition: partitionId
             }, message);
         } catch (error) {
             elizaLogger.error("Error publishing message to Streamr", error);
