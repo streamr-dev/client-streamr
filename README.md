@@ -9,8 +9,13 @@ The Streamr client provides ElizaOS with capabilities to connect to Streamr P2P 
 - Handle incoming messages from a Streamr stream
 
 ## Installation
-```bash
-npm install @elizaos-plugins/client-streamr
+Add streamr client plugin to your package.json
+```
+{
+    "dependencies": {
+        "@elizaos-plugins/client-streamr": "github:streamr-dev/client-streamr"
+    }
+}
 ```
 
 ## Configuration
